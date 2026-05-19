@@ -1,26 +1,28 @@
 package com.hibernate.entity;
 
 import jakarta.persistence.*;
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "author")
-public class Author {
+@Table(name = "reader")
+public class Reader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "full_name")
     private String fullName;
 
-    @OneToMany(mappedBy = "author")
-    private List<Book> books = new ArrayList<>();
+    @OneToMany(mappedBy = "reader")
+    private List<Loan> loans = new ArrayList<>();
 
-    public Author() {
+    public Reader() {
     }
 
-    public Author(String fullName) {
+    public Reader(String fullName) {
         this.fullName = fullName;
     }
 
@@ -32,20 +34,11 @@ public class Author {
         return fullName;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    @Override
-    public String toString() {
-        return "Author{" +
-               "id=" + id +
-               ", fullName='" + fullName + '\'' +
-               ", books=" + books +
-               '}';
     }
 }
