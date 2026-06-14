@@ -10,7 +10,7 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "loan_date")
     private LocalDate loanDate;
@@ -39,7 +39,7 @@ public class Loan {
         this.reader = reader;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

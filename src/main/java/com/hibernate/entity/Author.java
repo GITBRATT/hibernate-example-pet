@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "full_name")
     private String fullName;
@@ -24,7 +24,7 @@ public class Author {
         this.fullName = fullName;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
