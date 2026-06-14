@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface BaseRepositoryDao<T, ID>  {
     T save(T book);
-    Optional<T> findById(Long ID);
+    Optional<T> findById(ID id);
     List<T> findAll();
-    void deleteById(Long ID);
+    void deleteById(ID id);
 }

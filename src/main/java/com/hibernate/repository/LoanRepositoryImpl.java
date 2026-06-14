@@ -5,13 +5,14 @@ import com.hibernate.entity.Reader;
 import com.hibernate.repository.dao.BaseRepositoryDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class LoanRepositoryImpl implements BaseRepositoryDao<Loan, Integer> {
+public class LoanRepositoryImpl implements BaseRepositoryDao<Loan, Long> {
    // Передаем управленеи за транзакцией
     @PersistenceContext
     private EntityManager entityManager;
@@ -40,9 +41,12 @@ public class LoanRepositoryImpl implements BaseRepositoryDao<Loan, Integer> {
 
     @Override
     public void deleteById(Long id) {
-        Loan loan = entityManager.find(Loan.class, id);
-        if (loan != null) {
-            entityManager.remove(loan);
-        }
+        String hql = """  
+                   delete from Loan l 
+                   where l.id = :id
+                """;
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

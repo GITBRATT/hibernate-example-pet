@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /d/Project/hibernate-example-pet -type d -not -path */target/*)"
+    ]
+  }
+}

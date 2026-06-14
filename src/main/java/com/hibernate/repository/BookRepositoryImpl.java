@@ -4,13 +4,14 @@ import com.hibernate.entity.Book;
 import com.hibernate.repository.dao.BaseRepositoryDao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.List;
 
 @Repository
-public class BookRepositoryImpl implements BaseRepositoryDao<Book, Integer> {
+public class BookRepositoryImpl implements BaseRepositoryDao<Book, Long> {
    // Передаем управленеи за транзакцией
     @PersistenceContext
     private EntityManager entityManager;
@@ -31,14 +32,21 @@ public class BookRepositoryImpl implements BaseRepositoryDao<Book, Integer> {
 
     @Override
     public List<Book> findAll() {
-        return entityManager.createQuery("select b from Book b", Book.class).getResultList();
+        String hql = """  
+                   select b 
+                   from Book b
+                """;
+        return entityManager.createQuery(hql, Book.class).getResultList();
     }
 
     @Override
     public void deleteById(Long id) {
-        Book book = entityManager.find(Book.class, id);
-        if (book != null) {
-            entityManager.remove(book);
-        }
+        String hql = """  
+                   delete from Book b 
+                   where b.id = :id
+                """;
+        Query query = entityManager.createQuery(hql);
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }
