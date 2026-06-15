@@ -1,5 +1,6 @@
 package com.hibernate.config;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,16 +41,46 @@ public class PersistenceConfig {
     @Value("${hibernate.hbm2ddl.auto}")
     private String hibernateHbm2DdlAuto;
 
+    @Value("${db.connection-pool.initial-size}")
+    private int databaseConnectionPoolInitialSize;
+
+    @Value("${db.connection-pool.min-idle}")
+    private int databaseConnectionPoolMinIdle;
+
+    @Value("${db.connection-pool.max-idle}")
+    private int databaseConnectionPoolMaxIdle;
+
+    @Value("${db.connection-pool.max-total}")
+    private int databaseConnectionPoolMaxTotal;
+
+
     // Устанавливаем соедение
+    //    @Bean
+    //    public DataSource dataSource() {
+    //        DriverManagerDataSource ds = new DriverManagerDataSource();
+    //        ds.setDriverClassName(databaseDriver);
+    //        ds.setUrl(databaseUrl);
+    //        ds.setUsername(databaseUsername);
+    //        ds.setPassword(databasePassword);
+    //        return ds;
+    //    }
+
+    // Устанавливаем соедение используя connections pool
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
+        BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName(databaseDriver);
         ds.setUrl(databaseUrl);
         ds.setUsername(databaseUsername);
         ds.setPassword(databasePassword);
+
+        ds.setInitialSize(databaseConnectionPoolInitialSize);    // соединений при создании
+        ds.setMinIdle(databaseConnectionPoolMinIdle);   // соединений во время простоя
+        ds.setMaxIdle(databaseConnectionPoolMaxIdle);  // соединений во время простоя
+        ds.setMaxTotal(databaseConnectionPoolMaxTotal);  // сколько всего можно открыть одновременно
         return ds;
     }
+
 
     //Передаем настройки соединеия в EntityManagerFactory
     @Bean

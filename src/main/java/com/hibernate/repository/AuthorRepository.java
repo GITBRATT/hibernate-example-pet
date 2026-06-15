@@ -2,13 +2,13 @@ package com.hibernate.repository;
 
 import com.hibernate.entity.Author;
 import com.hibernate.repository.dao.BaseRepositoryDao;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import jakarta.persistence.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class AuthorRepository implements BaseRepositoryDao<Author, Long> {
     // Передаем управленеи за транзакцией
     @PersistenceContext
